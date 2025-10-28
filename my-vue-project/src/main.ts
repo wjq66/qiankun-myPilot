@@ -10,8 +10,11 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 
-app.mount('#app')
+// 路由挂载完成后再注册 qiankun，确保容器已存在
+router.isReady().then(() => {
+  registerQiankunApps()
+})
 
-registerQiankunApps();
+app.mount('#app')
 
 

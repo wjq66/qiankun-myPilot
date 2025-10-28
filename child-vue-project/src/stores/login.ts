@@ -17,6 +17,17 @@ export const useLoginStore = defineStore('loginInfo', () => {
         userInfo.value = JSON.parse(localStorage.getItem('userInfo') || 'null')
         isAuthenticated.value = localStorage.getItem('isAuthenticated') === 'true'
     }
+    
+    const clearUserInfo = () => {
+        userInfo.value = null
+        token.value = null
+        isAuthenticated.value = false
+        isLoading.value = false
+        errorMessage.value = ''
+        localStorage.removeItem('userInfo')
+        localStorage.removeItem('token')
+        localStorage.removeItem('isAuthenticated')
+    }
      
     return {
         userInfo,
@@ -25,6 +36,7 @@ export const useLoginStore = defineStore('loginInfo', () => {
         isLoading,
         errorMessage,
         initFromProps,
-        restoreUserInfo
+        restoreUserInfo,
+        clearUserInfo
     }
 })

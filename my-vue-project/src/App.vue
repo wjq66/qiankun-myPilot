@@ -86,6 +86,7 @@ onMounted(() => {
 import { computed, ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from './stores/auth'
+import { actions } from './qiankun'
 
 const router = useRouter()
 const route = useRoute()
@@ -134,6 +135,18 @@ const handleUserAction = (command: string) => {
       break
     case 'logout':
       authStore.logout()
+      
+      // 通过 qiankun actions 通知子应用（使用事件管理器的事件类型）
+      if (actions) {
+        actions.setGlobalState({
+          event: 'user:logout',
+          data: {
+            timestamp: Date.now(),
+            message: '用户已退出登录'
+          }
+        })
+      }
+      
       router.push('/login')
       break
   }
