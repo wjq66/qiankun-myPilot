@@ -5,8 +5,9 @@ import { qiankunWindow } from "vite-plugin-qiankun/dist/helper"
 
 const router = createRouter({
   // 在 qiankun 环境使用 hash 模式，独立运行时使用 history 模式
+  // base 路径需要与主应用的 activeRule 匹配
   history: qiankunWindow.__POWERED_BY_QIANKUN__ 
-    ? createWebHashHistory() 
+    ? createWebHashHistory('/son-vue3/') 
     : createWebHistory(),
   routes: [
     {

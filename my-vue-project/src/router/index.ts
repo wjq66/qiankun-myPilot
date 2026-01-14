@@ -51,6 +51,12 @@ const router = createRouter({
       name: 'forgot-password',
       component: () => import('../views/ForgotPasswordView.vue'),
       meta: { requiresGuest: true }
+    },
+    {
+      path: '/task-management',
+      name: 'task-management',
+      component: () => import('../views/testManage.vue'),
+      meta: { requiresAuth: true }
     }
   ]
 })

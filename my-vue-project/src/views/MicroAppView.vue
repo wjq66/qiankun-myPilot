@@ -7,7 +7,19 @@
 </template>
 
 <script setup lang="ts">
-// 微应用容器组件
+import { onMounted, nextTick } from 'vue'
+import { registerQiankunApps } from '@/qiankun'
+
+// 组件挂载后，确保容器存在后再注册（如果还没注册）
+onMounted(async () => {
+  await nextTick() // 等待 DOM 渲染完成
+  const container = document.querySelector('#container')
+  if (container) {
+    console.log('[MicroAppView] 容器已创建，确保 qiankun 已注册')
+    // 如果还没注册，这里会注册（但通常已经在 main.ts 中注册过了）
+    registerQiankunApps()
+  }
+})
 </script>
 
 <style scoped>

@@ -7,50 +7,12 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 import { renderWithQiankun, qiankunWindow } from "vite-plugin-qiankun/dist/helper"
 import { useLoginStore } from './stores/login'
-import { eventManager, AppEvents } from './utils/eventManager'
+import { eventAdapter } from './utils/eventAdapter'
 
 import App from './App.vue'
 import router from './router'
 
 let instance: AppInstance | null = null
-
-/**
- * 设置事件处理器（统一管理）
- */
-function setupEventHandlers(userStore: any) {
-  // 监听退出登录事件
-  eventManager.on(AppEvents.USER_LOGOUT, (data) => {
-    console.log('[子应用] 收到退出登录事件', data)
-    userStore.clearUserInfo()
-    
-    // 可以在这里执行其他清理操作
-    // 例如：清空缓存、跳转到登录页等
-  })
-
-  // 监听登录事件
-  eventManager.on(AppEvents.USER_LOGIN, (data) => {
-    console.log('[子应用] 收到登录事件', data)
-    if (data?.userInfo) {
-      userStore.initFromProps({ userInfo: data.userInfo })
-    }
-  })
-
-  // 监听用户信息更新事件
-  eventManager.on(AppEvents.USER_INFO_UPDATE, (data) => {
-    console.log('[子应用] 收到用户信息更新事件', data)
-    if (data?.userInfo) {
-      userStore.userInfo = data.userInfo
-    }
-  })
-
-  // 监听数据同步事件
-  eventManager.on(AppEvents.DATA_SYNC, (data) => {
-    console.log('[子应用] 收到数据同步事件', data)
-    // 处理数据同步逻辑
-  })
-
-  console.log('[子应用] 事件处理器注册完成')
-}
 
 /**
  * 渲染函数
@@ -102,21 +64,16 @@ function render(props: any = {}) {
     userStore.restoreUserInfo()
   }
 
-  // 监听主应用的全局状态变化（退出登录等事件）
+  // 初始化事件适配器
   if (props?.onGlobalStateChange) {
-    props.onGlobalStateChange((state: any, prev: any) => {
-      console.log('[子应用] 全局状态变化:', state)
-      console.log('[子应用] 上一状态:', prev)
-      
-      // 通过事件管理器处理各种事件
-      if (state?.event) {
-        eventManager.emit(state.event, state.data)
-      }
-    }, true) // true 表示立即触发一次
+    eventAdapter.init(props.onGlobalStateChange)
+    
+    // 监听退出登录事件
+    eventAdapter.on('user-logout', (data: any) => {
+      console.log('[子应用] 用户已退出登录，清理本地数据', data)
+      userStore.clearUserInfo()
+    })
   }
-
-  // 注册事件处理器（统一管理）
-  setupEventHandlers(userStore)
 
   // 挂载应用
   instance.mount(mountContainer)

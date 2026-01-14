@@ -115,7 +115,8 @@ const menuItems = [
   { path: '/', icon: '🏠', label: '首页' },
   { path: '/dashboard', icon: '📊', label: '仪表板' },
   { path: '/users', icon: '👤', label: '用户中心' },
-  { path: '/settings', icon: '⚙️', label: '系统设置' }
+  { path: '/settings', icon: '⚙️', label: '系统设置' },
+  { path: '/task-management', icon: '📋', label: '任务管理' }
 ]
 
 // 导航方法
