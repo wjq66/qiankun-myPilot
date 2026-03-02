@@ -16,7 +16,8 @@
           <div class="user-info">
             <span class="username">{{ userInfo.username }}</span>
             <div class="user-avatar">{{ userInfo.username.charAt(0).toUpperCase() }}</div>
-            <select @change="handleUserAction($event.target.value)" class="user-select">
+            <select @change="handleUserAction($event.
+            target.value)" class="user-select">
               <option value="">▼</option>
               <option value="profile">个人资料</option>
               <option value="settings">系统设置</option>
@@ -114,9 +115,11 @@ const isCollapsed = ref(false)
 const menuItems = [
   { path: '/', icon: '🏠', label: '首页' },
   { path: '/dashboard', icon: '📊', label: '仪表板' },
-  { path: '/users', icon: '👤', label: '用户中心' },
+  { path: '/userCenter', icon: '👤', label: '用户中心' },
   { path: '/settings', icon: '⚙️', label: '系统设置' },
-  { path: '/task-management', icon: '📋', label: '任务管理' }
+  { path: '/task-management', icon: '📋', label: '任务管理' },
+  { path: '/gantt', icon: '📋', label: '甘特图' },
+  { path: '/moreDataView', icon: '📋', label: '大数据表格视图' }
 ]
 
 // 导航方法
@@ -307,6 +310,8 @@ body {
 
 /* 主内容区域 */
 .main-content {
+  overflow-y: auto;  
+  overflow-x: hidden;  
   margin-left: 220px;
   margin-top: 60px;
   min-height: calc(100vh - 60px);

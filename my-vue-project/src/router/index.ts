@@ -17,17 +17,17 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/users',
-      name: 'users',
-      component: () => import('../views/UserCenterView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/son-vue3',
-      name: 'son-vue3',
+      path: '/userCenter',
+      name: 'userCenter',
       component: () => import('../views/MicroAppView.vue'),
       meta: { requiresAuth: true }
     },
+    // {
+    //   path: '/son-vue3',
+    //   name: 'son-vue3',
+    //   component: () => import('../views/MicroAppView.vue'),
+    //   meta: { requiresAuth: true }
+    // },
     {
       path: '/settings',
       name: 'settings',
@@ -56,6 +56,18 @@ const router = createRouter({
       path: '/task-management',
       name: 'task-management',
       component: () => import('../views/testManage.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/gantt',
+      name: 'gantt',
+      component: () => import('../views/GanttView.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/moreDataView',
+      name: 'moreDataView',
+      component: () => import('../views/moreDataView.vue'),
       meta: { requiresAuth: true }
     }
   ]

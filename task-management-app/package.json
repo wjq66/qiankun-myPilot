@@ -14,6 +14,9 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
+    "ag-grid-community": "^35.0.0",
+    "ag-grid-enterprise": "^35.0.1",
+    "ag-grid-vue3": "^35.0.0",
     "element-plus": "^2.11.5",
     "pinia": "^3.0.3",
     "qiankun": "^2.10.16",
@@ -22,6 +25,11 @@
     "vue-router": "^4.6.3"
   },
   "devDependencies": {
+    "@ag-grid-community/core": "^31.3.2",
+    "@ag-grid-community/styles": "^31.3.2",
+    "@ag-grid-enterprise/core": "^31.3.2",
+    "@ag-grid-enterprise/row-grouping": "^31.3.2",
+    "@ag-grid-enterprise/server-side-row-model": "^31.3.2",
     "@tsconfig/node22": "^22.0.2",
     "@types/node": "^22.18.12",
     "@vitejs/plugin-vue": "^6.0.1",

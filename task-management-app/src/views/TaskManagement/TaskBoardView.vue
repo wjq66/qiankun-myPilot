@@ -16,7 +16,6 @@
     <el-card class="toolbar-card" shadow="never">
       <div class="toolbar">
         <div class="toolbar-left">
-          <h2>📋 任务管理看板</h2>
           <div class="stats-container">
             <div class="stat-item">
               <span class="stat-label">总任务</span>
@@ -202,7 +201,7 @@
 
 <style scoped>
 .task-board-view {
-  padding: 20px;
+  padding: 0px 8px 8px;
   min-height: calc(100vh - 200px);
 }
 

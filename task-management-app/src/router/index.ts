@@ -10,6 +10,16 @@ const router = createRouter({
             path: '/',
             name: 'task-management-board',
             component: () => import('@/views/TaskManagement/TaskBoardView.vue')
+        },
+        {
+            path: '/task-list',
+            name: 'task-list',
+            component: () => import('@/views/TaskList/index.vue')
+        },
+        {
+            path: '/work-plan',
+            name: 'work-plan',
+            component: () => import('@/views/work-plan/index.vue')
         }
     ]
 })

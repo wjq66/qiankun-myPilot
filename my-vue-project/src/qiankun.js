@@ -30,10 +30,10 @@ export function registerQiankunApps() {
   
   registerMicroApps([
     {
-      name: 'son-vue3',
+      name: 'userCenter',
       entry: '//localhost:5174',
       container: '#container',
-      activeRule: (location) => location.pathname.startsWith('/son-vue3'),
+      activeRule: (location) => location.pathname.startsWith('/userCenter'),
       props: {
         userInfo: authStore.userInfo,
         // 传递 Actions 方法给子应用

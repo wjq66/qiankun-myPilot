@@ -2,12 +2,13 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
-// 用户接口定义
+// 用户接口定义（与后端返回的数据结构匹配）
 interface User {
-  id: number
+  loginId: number  // 后端返回的是 loginId
   username: string
-  email: string
-  password: string
+  phone?: string   // 后端返回的是 phone，不是 email
+  email?: string   // 保留 email 字段以兼容旧代码
+  password?: string
 }
 
 // 登录表单接口
@@ -40,13 +41,13 @@ export const useAuthStore = defineStore('auth', () => {
   // 模拟用户数据库（实际项目中应该连接后端API）
   const users = ref<User[]>([
     {
-      id: 1,
+      loginId: 1,
       username: 'admin',
       email: 'admin@example.com',
       password: '123456'
     },
     {
-      id: 2,
+      loginId: 2,
       username: 'user',
       email: 'user@example.com',
       password: '123456'
@@ -55,9 +56,11 @@ export const useAuthStore = defineStore('auth', () => {
 
   // 计算属性
   const userInfo = computed(() => ({
-    id: currentUser.value?.id,
+    id: currentUser.value?.loginId, // 使用 loginId 作为 id
+    loginId: currentUser.value?.loginId,
     username: currentUser.value?.username,
-    email: currentUser.value?.email
+    email: currentUser.value?.email,
+    phone: currentUser.value?.phone
   }))
 
   // 方法
@@ -66,33 +69,68 @@ export const useAuthStore = defineStore('auth', () => {
     errorMessage.value = ''
 
     try {
-      // 模拟API调用延迟
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      const response = await fetch('http://localhost:3000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(loginForm)
+      })
 
-      // 查找用户
-      const user = users.value.find(
-        u => u.username === loginForm.username && u.password === loginForm.password
-      )
+      // 检查响应状态
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
 
-      if (user) {
-        currentUser.value = user
+      const data = await response.json()
+
+      if (data.code === 200) {
+        currentUser.value = data.data.user
         isAuthenticated.value = true
-        
-        // 保存到本地存储
-        localStorage.setItem('user', JSON.stringify(user))
+        localStorage.setItem('user', JSON.stringify(data.data.user))
         localStorage.setItem('isAuthenticated', 'true')
-        
+        localStorage.setItem('token', data.data.token) // 保存 token
         return { success: true, message: '登录成功！' }
       } else {
-        errorMessage.value = '用户名或密码错误'
-        return { success: false, message: '用户名或密码错误' }
+        errorMessage.value = data.message
+        return { success: false, message: data.message }
       }
-    } catch (error) {
-      errorMessage.value = '登录失败，请稍后重试'
-      return { success: false, message: '登录失败，请稍后重试' }
+    } catch (error: any) {
+      console.error('登录请求失败:', error)
+      errorMessage.value = error.message || '网络错误，请检查后端服务是否启动'
+      return { success: false, message: error.message || '网络错误，请检查后端服务是否启动' }
     } finally {
       isLoading.value = false
     }
+
+    // try {
+    //   // 模拟API调用延迟
+    //   await new Promise(resolve => setTimeout(resolve, 1000))
+
+    //   // 查找用户
+    //   const user = users.value.find(
+    //     u => u.username === loginForm.username && u.password === loginForm.password
+    //   )
+
+    //   if (user) {
+    //     currentUser.value = user
+    //     isAuthenticated.value = true
+        
+    //     // 保存到本地存储
+    //     localStorage.setItem('user', JSON.stringify(user))
+    //     localStorage.setItem('isAuthenticated', 'true')
+        
+    //     return { success: true, message: '登录成功！' }
+    //   } else {
+    //     errorMessage.value = '用户名或密码错误'
+    //     return { success: false, message: '用户名或密码错误' }
+    //   }
+    // } catch (error) {
+    //   errorMessage.value = '登录失败，请稍后重试'
+    //   return { success: false, message: '登录失败，请稍后重试' }
+    // } finally {
+    //   isLoading.value = false
+    // }
   }
 
   const register = async (registerForm: RegisterForm) => {
@@ -125,7 +163,7 @@ export const useAuthStore = defineStore('auth', () => {
 
       // 创建新用户
       const newUser: User = {
-        id: Date.now(), // 简单的ID生成
+        loginId: Date.now(), // 简单的ID生成
         username: registerForm.username,
         email: registerForm.email,
         password: registerForm.password

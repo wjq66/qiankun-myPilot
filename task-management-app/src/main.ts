@@ -1,11 +1,16 @@
 import './public-path'
 
-import {createApp} from 'vue'
+import {createApp, type App as AppInstance} from 'vue'
 import {createPinia} from 'pinia'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import { useLoginStore } from './stores/login'
+
+// AG Grid 样式 - 使用新的主题 API（v33+），不导入 CSS 文件
+// 如果使用 theme="quartz" 等新主题，不需要导入 CSS
+// import 'ag-grid-community/styles/ag-grid.css'
+// import 'ag-grid-community/styles/ag-theme-alpine.css'
 
 import {qiankunWindow, renderWithQiankun} from "vite-plugin-qiankun/dist/helper"
 
