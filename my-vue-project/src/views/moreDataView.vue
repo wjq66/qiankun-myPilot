@@ -81,8 +81,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, onDeactivated, h, onActivated, nextTick, watch } from 'vue';
-import { VirtualScroll, MockDataItem, generateData, renderListItem } from '../utils/virtualScroll';
-import { tableData as mockTableData, table, CanvasTable, setColumnsStyle, type CanvasTableData } from '../utils/canvasTable';
+import { VirtualScroll, MockDataItem, generateData, renderListItem } from '../classes/virtualScroll';
+import { tableData as mockTableData, table, CanvasTable, setColumnsStyle, type CanvasTableData } from '../classes/canvasTable';
 
 const virtualScroll = ref<VirtualScroll<MockDataItem> | null>(null)
 

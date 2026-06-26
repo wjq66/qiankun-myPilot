@@ -69,6 +69,12 @@ const router = createRouter({
       name: 'moreDataView',
       component: () => import('../views/moreDataView.vue'),
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/fileUploadView',
+      name: 'fileUploadView',
+      component: () => import('../views/fileUploadView/index.vue'),
+      meta: { requiresAuth: true }
     }
   ]
 })

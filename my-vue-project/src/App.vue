@@ -119,7 +119,8 @@ const menuItems = [
   { path: '/settings', icon: '⚙️', label: '系统设置' },
   { path: '/task-management', icon: '📋', label: '任务管理' },
   { path: '/gantt', icon: '📋', label: '甘特图' },
-  { path: '/moreDataView', icon: '📋', label: '大数据表格视图' }
+  { path: '/moreDataView', icon: '📋', label: '大数据表格视图' },
+  { path: '/fileUploadView', icon: '📋', label: '大文件上传' }
 ]
 
 // 导航方法

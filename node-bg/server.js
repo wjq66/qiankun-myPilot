@@ -1,4 +1,5 @@
 const express = require("express")
+const http = require("http")
 const app = express()
 
 // 创建一个路由对象
@@ -40,16 +41,33 @@ app.use((req, res, next) => {
 // 引入登录路由
 const loginRouter = require('./login');
 
+// 引入文件上传路由（可选，如果需要文件上传功能）
+// const fileUploadRouter = require('./fileUpload');
+
+// 引入文件通知服务
+const fileNotificationService = require('./fileNotification');
+
 // ========== 接口=========
 // 登录相关接口
 app.use('/api/auth', loginRouter);
 
-// 启动服务器
+// 文件上传相关接口（如果启用了 fileUpload.js，取消下面的注释）
+// app.use('/api/file', fileUploadRouter);
+
+// ========== WebSocket 服务 ==========
+// 创建 HTTP 服务器（WebSocket 需要附加到 HTTP 服务器上）
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+const server = http.createServer(app);
+
+// 初始化 WebSocket 文件通知服务
+fileNotificationService.init(server);
+
+// 启动服务器
+server.listen(PORT, () => {
     console.log(`服务器运行在 http://localhost:${PORT}`);
     console.log(`登录接口: POST http://localhost:${PORT}/api/auth/login`);
     console.log(`注册接口: POST http://localhost:${PORT}/api/auth/register`);
+    console.log(`WebSocket 文件通知接口: ws://localhost:${PORT}/ws/file-notification`);
 })
 
  

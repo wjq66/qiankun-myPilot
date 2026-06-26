@@ -19,6 +19,7 @@
     "element-plus": "^2.13.2",
     "pinia": "^3.0.3",
     "qiankun": "^2.10.16",
+    "spark-md5": "^3.0.2",
     "vue": "^3.5.22",
     "vue-router": "^4.6.3"
   },
